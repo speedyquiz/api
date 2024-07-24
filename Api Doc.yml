@@ -1,0 +1,1692 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/ANILN/QuizAppAdminAPI/1.0.0
+info:
+  version: "1.0.0"
+  title: Quiz App Admin API
+  description: Quiz App Admin API
+  contact:
+    name: Anil Nakum
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+                  data:
+                    type: object
+
+        "404":
+          description: Method not found
+        "405":
+          description: Exception
+
+  /auth/forgot-password:
+    post:
+      tags:
+        - Auth
+      summary: Forgot Password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+        "404":
+          description: Method not found
+        "405":
+          description: Exception
+  /user/profile:
+    get:
+      tags:
+        - Auth
+      summary: Retrieve user profile
+      description: Retrieves the profile of a user.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+                  data:
+                    type: object
+        "401":
+          description: Unauthorized
+  /user/update-account:
+    put:
+      tags:
+        - Auth
+      summary: Update account details
+      description: Updates the account details of the authenticated user.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                phone:
+                  type: string
+
+      responses:
+        "200":
+          description: Account details updated successfully
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized
+  /auth/logout:
+    get:
+      tags:
+        - Auth
+      summary: User logout
+      description: Logs out a user and invalidates the access token.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful logout
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized
+
+  /dashboard/statistics-count:
+    get:
+      tags:
+        - Dashboard
+      summary: Get Dashboard Statistical Count
+      description: Retrieves the statistical count.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+                  data:
+                    type: object
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized
+
+  /subscription:
+    get:
+      tags:
+        - Subscription
+      summary: Get Subscription Details
+      description: Retrieves All Subscription Plan Detais.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+                  data:
+                    type: object
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized
+    post:
+      tags:
+        - Subscription
+      summary: Add New Subscription Plan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Subscription"
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success Response with All Subscription
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+                  data:
+                    type: object
+        "404":
+          description: Method not found
+        "405":
+          description: Exception
+  /subscription/{planId}:
+    put:
+      tags:
+        - Subscription
+      summary: Update Subscription Plan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Subscription"
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: planId
+          in: path
+          description: Id of plan Update.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success Response with Updated Subscription Plan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+                  data:
+                    type: object
+        "404":
+          description: Method not found
+        "405":
+          description: Exception
+    delete:
+      tags:
+        - Subscription
+      summary: Delete a resource
+      description: Deletes a resource identified by its ID.
+      parameters:
+        - name: planId
+          in: path
+          description: ID of the Plan to delete.
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Plan deleted successfully
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized
+
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Get user list
+      description: Retrieves a list of users.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+    post:
+      tags:
+        - Users
+      summary: Add a new user
+      description: Creates a new user.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: User created successfully
+        "400":
+          description: Invalid request
+  /users/{userId}:
+    get:
+      tags:
+        - Users
+      summary: Get user by ID
+      description: Retrieves a user by their ID.
+      parameters:
+        - name: userId
+          in: path
+          description: ID of the user to retrieve.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: User not found
+    put:
+      tags:
+        - Users
+      summary: Update user
+      description: Updates an existing user.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: path
+          description: ID of the user to update.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: User updated successfully
+        "400":
+          description: Invalid request
+        "404":
+          description: User not found
+    delete:
+      tags:
+        - Users
+      summary: Delete user
+      description: Deletes an existing user.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: path
+          description: ID of the user to delete.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: User deleted successfully
+        "404":
+          description: User not found
+  /users/{userId}/status:
+    patch:
+      tags:
+        - Users
+      summary: Activate/Inactivate user
+      description: Activates or inactivates a user by their ID.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: path
+          description: ID of the user to activate/inactivate.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserStatus"
+      responses:
+        "200":
+          description: User status updated successfully
+        "400":
+          description: Invalid request
+        "404":
+          description: User not found
+
+  /users/addsubscription:
+    post:
+      tags:
+        - Users
+      summary: Add Subscription for user
+      description: Creates a Subscription for user.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                planId:
+                  type: string
+      responses:
+        "201":
+          description: User created successfully
+        "400":
+          description: Invalid request
+  /quiz:
+    get:
+      tags:
+        - Quiz
+      summary: Get quiz list
+      description: Retrieves a list of quiz.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Quiz"
+    post:
+      tags:
+        - Quiz
+      summary: Add a new quiz
+      description: Creates a new quiz.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Quiz"
+      responses:
+        "201":
+          description: Quiz created successfully
+        "400":
+          description: Invalid request
+  /quiz/{quizId}:
+    get:
+      tags:
+        - Quiz
+      summary: Get quiz details
+      description: Retrieves details of a quiz by its ID.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: quizId
+          in: path
+          description: ID of the quiz to retrieve details for.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Quiz"
+        "404":
+          description: Quiz not found
+    put:
+      tags:
+        - Quiz
+      summary: Update quiz
+      description: Updates an existing quiz.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: quizId
+          in: path
+          description: ID of the quiz to update.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Quiz"
+      responses:
+        "200":
+          description: Quiz updated successfully
+        "400":
+          description: Invalid request
+        "404":
+          description: Quiz not found
+    delete:
+      tags:
+        - Quiz
+      summary: Delete quiz
+      description: Deletes an existing quiz.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: quizId
+          in: path
+          description: ID of the quiz to delete.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Quiz deleted successfully
+        "404":
+          description: Quiz not found
+  /quiz/{quizId}/copy:
+    post:
+      tags:
+        - Quiz
+      summary: Copy quiz
+      description: Copies an existing quiz.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: quizId
+          in: path
+          description: ID of the quiz to copy.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "201":
+          description: Quiz copied successfully
+        "404":
+          description: Quiz not found
+  /questions:
+    get:
+      tags:
+        - Questions
+      summary: Get quiz question list
+      description: Retrieves a list of quiz questions.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/QuizQuestion"
+    post:
+      tags:
+        - Questions
+      summary: Add quiz question
+      description: Adds a new question to a quiz.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/QuizQuestion"
+      responses:
+        "201":
+          description: Quiz question added successfully
+        "400":
+          description: Invalid request
+  /questions/{questionId}:
+    get:
+      tags:
+        - Questions
+      summary: Get quiz question details
+      description: Retrieves details of a quiz question by its ID.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: questionId
+          in: path
+          description: ID of the question to retrieve details for.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuizQuestion"
+        "404":
+          description: Quiz question not found
+    put:
+      tags:
+        - Questions
+      summary: Update quiz question
+      description: Updates an existing quiz question.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: questionId
+          in: path
+          description: ID of the question to update.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/QuizQuestion"
+      responses:
+        "200":
+          description: Quiz question updated successfully
+        "400":
+          description: Invalid request
+        "404":
+          description: Quiz question not found
+    delete:
+      tags:
+        - Questions
+      summary: Delete quiz question
+      description: Deletes an existing quiz question.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: questionId
+          in: path
+          description: ID of the question to delete.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Quiz question deleted successfully
+        "404":
+          description: Quiz question not found
+  /questions/import:
+    post:
+      tags:
+        - Questions
+      summary: Import quiz questions
+      description: Imports multiple quiz questions.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "201":
+          description: Quiz questions imported successfully
+        "400":
+          description: Invalid request
+  /questions/export:
+    get:
+      tags:
+        - Questions
+      summary: Export quiz questions
+      description: Exports all quiz questions.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/QuizQuestion"
+  /categories:
+    get:
+      tags:
+        - Categories
+      summary: Get category list
+      description: Retrieves a paginated list of categories.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    description: Total number of categories
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Category"
+    post:
+      tags:
+        - Categories
+      summary: Add category
+      description: Adds a new category.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Category"
+      responses:
+        "201":
+          description: Category added successfully
+        "400":
+          description: Invalid request
+  /categories/{categoryId}:
+    get:
+      tags:
+        - Categories
+      summary: Get category details
+      description: Retrieves details of a category by its ID.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: categoryId
+          in: path
+          description: ID of the category to retrieve details for.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+        "404":
+          description: Category not found
+    put:
+      tags:
+        - Categories
+      summary: Update category
+      description: Updates an existing category.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: categoryId
+          in: path
+          description: ID of the category to update.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Category"
+      responses:
+        "200":
+          description: Category updated successfully
+        "400":
+          description: Invalid request
+        "404":
+          description: Category not found
+    delete:
+      tags:
+        - Categories
+      summary: Delete category
+      description: Deletes an existing category.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: categoryId
+          in: path
+          description: ID of the category to delete.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Category deleted successfully
+        "404":
+          description: Category not found
+  /categories/search:
+    get:
+      tags:
+        - Categories
+      summary: Search categories
+      description: Searches for categories based on a query.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: query
+          in: query
+          description: Search query string
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+        "400":
+          description: Invalid request
+  /quiz-winners:
+    get:
+      tags:
+        - Quiz Winner Management
+      summary: Get quiz winner list with filter
+      description: Retrieves a list of quiz winners with optional filtering.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: quizId
+          in: query
+          description: ID of the quiz to filter by.
+          required: false
+          schema:
+            type: integer
+        - name: startDate
+          in: query
+          description: Start date to filter winners.
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          description: End date to filter winners.
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/QuizWinner"
+
+  /quiz-winners/{quizId}/{winnerId}:
+    get:
+      tags:
+        - Quiz Winner Management
+      summary: Get quiz winner details
+      description: Retrieves details of a quiz winner by their ID.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: quizId
+          in: path
+          description: ID of the quiz.
+          required: true
+          schema:
+            type: string
+        - name: winnerId
+          in: path
+          description: ID of the winner to retrieve details for.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuizWinner"
+        "404":
+          description: Quiz winner not found
+    put:
+      tags:
+        - Quiz Winner Management
+      summary: Update winner details
+      description: Updates details of a quiz winner.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: quizId
+          in: path
+          description: ID of the quiz.
+          required: true
+          schema:
+            type: string
+        - name: winnerId
+          in: path
+          description: ID of the winner to update.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuizWinner"
+      responses:
+        "200":
+          description: Quiz winner details updated successfully
+        "400":
+          description: Invalid request
+        "404":
+          description: Quiz winner not found
+    delete:
+      tags:
+        - Quiz Winner Management
+      summary: Delete winner record
+      description: Deletes a quiz winner record.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: quizId
+          in: path
+          description: ID of the quiz.
+          required: true
+          schema:
+            type: string
+        - name: winnerId
+          in: path
+          description: ID of the winner record to delete.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Quiz winner record deleted successfully
+        "404":
+          description: Quiz winner record not found
+  /quiz-winners/search:
+    get:
+      tags:
+        - Quiz Winner Management
+      summary: Search quiz winners
+      description: Searches for quiz winners based on a query.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: query
+          in: query
+          description: Search query string
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/QuizWinner"
+        "400":
+          description: Invalid request
+  /quiz-leaderboard:
+    get:
+      tags:
+        - Quiz Winner Management
+      summary: Get quiz leaderboard
+      description: Retrieves the leaderboard for a quiz.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: quizId
+          in: query
+          description: ID of the quiz to retrieve the leaderboard for.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/QuizLeaderboardEntry"
+        "404":
+          description: Quiz not found
+
+  /payout:
+    get:
+      tags:
+        - Payouts
+      summary: Get list of all payouts
+      description: Retrieves a list of all payouts.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Payout"
+  /payout/{payoutId}:
+    get:
+      tags:
+        - Payouts
+      summary: View details of a payout
+      description: Retrieves details of a payout by its ID.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: payoutId
+          in: path
+          description: ID of the payout to retrieve details for.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Payout"
+        "404":
+          description: Payout not found
+  /pages:
+    get:
+      tags:
+        - Pages
+      summary: Get list of static pages
+      description: Retrieves a list of all static pages.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Page"
+    post:
+      tags:
+        - Pages
+      summary: Add a static page
+      description: Adds a new static page.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Page"
+      responses:
+        "201":
+          description: Static page added successfully
+        "400":
+          description: Invalid request
+  /pages/{pageId}:
+    get:
+      tags:
+        - Pages
+      summary: Get details of a static page
+      description: Retrieves details of a static page by its ID.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: pageId
+          in: path
+          description: ID of the static page to retrieve details for.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Page"
+        "404":
+          description: Static page not found
+    put:
+      tags:
+        - Pages
+      summary: Update details of a static page
+      description: Updates details of an existing static page.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: pageId
+          in: path
+          description: ID of the static page to update.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Page"
+      responses:
+        "200":
+          description: Static page updated successfully
+        "400":
+          description: Invalid request
+        "404":
+          description: Static page not found
+    delete:
+      tags:
+        - Pages
+      summary: Delete a static page
+      description: Deletes a static page.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: pageId
+          in: path
+          description: ID of the static page to delete.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Static page deleted successfully
+        "404":
+          description: Static page not found
+  /faq:
+    get:
+      tags:
+        - FAQs
+      summary: Get list of FAQs
+      description: Retrieves a list of all FAQs.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FAQ"
+    post:
+      tags:
+        - FAQs
+      summary: Add an FAQ
+      description: Adds a new FAQ.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FAQ"
+      responses:
+        "201":
+          description: FAQ added successfully
+        "400":
+          description: Invalid request
+  /faq/{faqId}:
+    get:
+      tags:
+        - FAQs
+      summary: Get details of an FAQ
+      description: Retrieves details of an FAQ by its ID.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: faqId
+          in: path
+          description: ID of the FAQ to retrieve details for.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FAQ"
+        "404":
+          description: FAQ not found
+    put:
+      tags:
+        - FAQs
+      summary: Update details of an FAQ
+      description: Updates details of an existing FAQ.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: faqId
+          in: path
+          description: ID of the FAQ to update.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FAQ"
+      responses:
+        "200":
+          description: FAQ updated successfully
+        "400":
+          description: Invalid request
+        "404":
+          description: FAQ not found
+    delete:
+      tags:
+        - FAQs
+      summary: Delete an FAQ
+      description: Deletes an FAQ.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Access token for authentication.
+          required: true
+          schema:
+            type: string
+        - name: faqId
+          in: path
+          description: ID of the FAQ to delete.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: FAQ deleted successfully
+        "404":
+          description: FAQ not found
+
+components:
+  schemas:
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: string
+        plan_title:
+          type: string
+        plan_description:
+          type: string
+        plan_amount:
+          type: number
+        plan_type:
+          type: string
+          description: monthly/annunly
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: User ID
+        name:
+          type: string
+          description: User name
+        email:
+          type: string
+          format: email
+          description: User email address
+        phone:
+          type: string
+          description: User Phone number
+        city:
+          type: string
+          description: City Name
+        country:
+          type: string
+          description: Country name
+        active:
+          type: boolean
+          description: User activation status
+    UserStatus:
+      type: object
+      properties:
+        active:
+          type: boolean
+          description: User activation status
+    Quiz:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Quiz ID
+        name:
+          type: string
+          description: Quiz Title
+        description:
+          type: string
+          description: Quiz Description
+        image:
+          type: string
+          format: binary
+        instructions:
+          type: string
+        quizCategory:
+          type: string
+        questions:
+          type: string
+          description: List of questions in the quiz
+    QuizQuestion:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Question ID
+        question:
+          type: string
+          description: Question text
+        attachment:
+          type: string
+          format: binary
+        questionCategory:
+          type: string
+        options:
+          type: array
+          description: List of options for the question
+          items:
+            type: string
+        answer:
+          type: string
+          description: Correct answer for the question
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Category ID
+        name:
+          type: string
+          description: Category name
+        description:
+          type: string
+          description: Category description
+    QuizWinner:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Winner ID
+        quizId:
+          type: string
+          description: ID of the quiz
+        name:
+          type: string
+          description: Winner's name
+        score:
+          type: number
+          description: Winner's score
+    QuizLeaderboardEntry:
+      type: object
+      properties:
+        position:
+          type: string
+          description: Position on the leaderboard
+        name:
+          type: string
+          description: Winner's name
+        score:
+          type: number
+          description: Winner's score
+    Payout:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Payout ID
+        amount:
+          type: number
+          description: Payout amount
+        recipient:
+          type: string
+          description: Recipient of the payout
+        date:
+          type: string
+          format: date
+          description: Date of the payout
+    Page:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Page ID
+        title:
+          type: string
+          description: Page title
+        content:
+          type: string
+          description: Page content
+    FAQ:
+      type: object
+      properties:
+        id:
+          type: string
+          description: FAQ ID
+        question:
+          type: string
+          description: FAQ question
+        answer:
+          type: string
+          description: FAQ answer

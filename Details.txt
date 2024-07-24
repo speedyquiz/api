@@ -1,0 +1,22 @@
+GitHub Repos invite sent to your and Saurin:
+
+speed-quiz-api: https://github.com/sdeitech/speed-quiz-api.git
+speed-quiz-mobile: https://github.com/sdeitech/speed-quiz-mobile.git
+speed-quiz-web: https://github.com/sdeitech/speed-quiz-web.git
+
+Database Details:
+Server IP:- 54.201.160.69
+Port:- 58173
+DB Name:- SpeedQuiz
+U/P:- SpeedQuiz / DBdE768rbv842
+Jenkins:
+http://52.40.197.36:8080
+
+Browsing Ports:
+API URL: 54.201.160.69:9205
+Backoffice URL: 54.201.160.69:3307
+
+
+https://documenter.getpostman.com/view/28459296/2s9XxvTv3A
+
+https://app.getpostman.com/join-team?invite_code=73beb5449f32d03675bcc4b56531aba4
